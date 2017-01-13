@@ -1,6 +1,6 @@
 # Appalope
 
-# Search Demo
+# Search Engine Demo
  Set the system locally.
 
 ##
