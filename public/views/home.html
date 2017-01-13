@@ -1,0 +1,226 @@
+<div class="Hedaer-main-block">
+    <div class="container ">
+        <div class="logo-block">
+            <h3 style="color:white;">Appalope</h3></div>
+        <div class="menu-bar">
+            <div class="M-bar-block"><i style="color:white" class="fa  fa-bars"></i></div>
+        </div>
+        <div class="sch-top seach-block-main">
+            <input type="text" name="searchContent" ng-enter="search()" ng-model="searchValue" placeholder="Search by official title or keyword" />
+            <a class="btn btn-primary fa fa-search" ng-click="search()"></a>
+        </div>
+    </div>
+    <div class="search_check_box">
+        <input type="checkbox" name="clinical_trials" ng-model="clinical_trial"> Clinical Trials
+        <input type="checkbox" name="drugs" ng-model="drugs">Drugs
+        <!--input type="checkbox" name="treatment" ng-model="treatment" >Treatment-->
+    </div>
+</div>
+<div class="main-container">
+    <div class="container ">
+        <div class="text-center">
+            <div class="search-outter">
+                <div class="sech-main-top" style="margin-top:10px;display:none">
+                    <div class="sync-btn">
+                        <a href="javascript:" class="btn btn-warning" ng-click="syncFiles()">Sync Xml Files</a>
+                    </div>
+                    <div class="sync-btn">
+                        <a href="javascript:" class="btn btn-warning" ng-click="syncDrug()">Sync Drug Files</a>
+                    </div>
+                    <div class="sync-btn">
+                        <a href="javascript:" class="btn btn-warning" ng-click="syncTreatment()">Sync Treatment Files</a>
+                    </div>
+                </div>
+
+                <!--Clinical records-->
+                <div id="content" class="span10">
+                    <div class="row-fluid sortable">
+                        <div class="box span12 span12-res">
+                            <div class="box-header" data-original-title>
+                                <h2><span>Clinical Trials</span></h2>
+                            </div>
+                            <div class="pull-right footer-pagination" ng-show="myvar">
+                                <uib-pagination total-items="TOTALCOUNT" ng-model="pageNumber" max-size="maxSize" class="pagination-sm" items-per-page="recordsPerPage" ng-change="pageChanged(pageNumber)"></uib-pagination>
+                            </div>
+                            <div class="box-content">
+                                <div class="table-res-munl">
+                                    <div class="table-res-munl-inner new-table">
+                                        <table class="table table-striped table-bordered bootstrap-datatable datatable main-table-recoard">
+                                            <thead class="thead-header">
+                                                <tr>
+                                                    <th class="rec-btm" width="20%">
+                                                        <a>Title</a>
+                                                    </th>
+                                                    <th width="7%" class="rec-btm">
+                                                        <a>Nct Id</a>
+                                                    </th>
+                                                    <th width="5%" class="rec-btm">
+                                                        <a>Url</a>
+                                                    </th>
+                                                    <th width="10%" class="rec-btm" width="15%">
+                                                        <a>Overall Status</a>
+                                                    </th>
+                                                    <th class="rec-btm" width="7%">
+                                                        <a>Phase</a>
+                                                    </th>
+                                                    <th class="rec-btm" width="13%">
+                                                        <a>Start Date</a>
+                                                    </th>
+                                                    <th class="rec-btm" width="20%">
+                                                        <a>Lead Sponsors</a>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody ng-hide='myvar'>
+                                                <tr>
+                                                    <td colspan='7'>No Record Found.</td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody ng-show='myvar' class="line-btm">
+                                                <tr ng-repeat='record in RECORDS'>
+                                                    <td title="{{record.BriefTitle}}">{{record.BriefTitle | limitTo: 65}}<span ng-if="record.BriefTitle.length > 65">&hellip;</span></td>
+                                                    <td ng-bind="record.IDInfo[0].NCTID"></td>
+                                                    <td><a href="{{record.RequiredHeader[0].LinkText[0]._a.xref}}" target="_blank">Link</a></td>
+                                                    <td ng-bind="record.CurrentProtocolStatus"></td>
+                                                    <td ng-bind="record.ProtocolPhase"></td>
+                                                    <td ng-bind="record.StartDate[0]._"></td>
+                                                    <td title="{{record.Sponsors[0].LeadSponsor}}">{{record.Sponsors[0].LeadSponsor}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <div class="search-outter">
+                <!--Clinical records-->
+                <div id="content" class="span10">
+                    <div class="row-fluid sortable">
+                        <div class="box span12 span12-res">
+                            <div class="box-header" data-original-title>
+                                <h2><span>Drugs</span></h2>
+                            </div>
+
+
+                            <div class="pull-right footer-pagination" ng-show="myvar_d">
+                                <uib-pagination total-items="TOTALCOUNT_d" ng-model="pageNumber_d" max-size="maxSize_d" class="pagination-sm" items-per-page="recordsPerPage_d" ng-change="pageChanged_d(pageNumber_d)"></uib-pagination>
+                            </div>
+
+                            <div class="box-content">
+                                <div class="table-res-munl">
+                                    <div class="table-res-munl-inner new-table">
+                                        <table class="table table-striped table-bordered bootstrap-datatable datatable main-table-recoard">
+                                            <thead class="thead-header">
+                                                <tr>
+                                                    <th class="rec-btm" width="17%">
+                                                        <a>Title</a>
+                                                    </th>
+                                                    <th class="rec-btm" width="6%">
+                                                        <a>Url</a>
+                                                    </th>
+                                                    <th class="rec-btm" width="4%">
+                                                        <a>Id</a>
+                                                    </th>
+                                                    <th class="rec-btm" width="10%">
+                                                        <a>Brand Name</a>
+                                                    </th>
+                                                    <th class="rec-btm" width="8%">
+                                                        <a>FDA Approved</a>
+                                                    </th>
+                                                    <th class="rec-btm" width="22%">
+                                                        <a>Pronunciation</a>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody ng-hide='myvar_d'>
+                                                <tr>
+                                                    <td colspan='7'>No Record Found.</td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody ng-show='myvar_d' class="line-btm">
+                                                <tr ng-repeat='drug in RECORDS_d'>
+                                                    <td title="{{drug.DrugInfoTitle}}">{{drug.DrugInfoTitle | limitTo: 65}}<span ng-if="drug.DrugInfoTitle.length > 65">&hellip;</span></td>
+                                                    <td><a href="{{drug.DrugInfoMetaData[0].DrugInfoURL[0]._a.xref}}" target="_blank">Link</a></td>
+                                                    <td ng-bind="drug._a.id"></td>
+                                                    <td ng-bind="drug.DrugInfoMetaData[0].USBrandNames[0].USBrandName"></td>
+                                                    <td ng-bind="drug.DrugInfoMetaData[0].FDAApproved"></td>
+                                                    <td ng-bind="drug.DrugInfoMetaData[0].PronunciationInfo[0].TermPronunciation"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Treatment Records-->
+        <!-->
+        <div class="text-center">
+            <div class="search-outter">
+                <!--Clinical records
+        <div id="content" class="span10">
+            <div class="row-fluid sortable">
+                <div class="box span12 span12-res">
+                    <div class="box-header" data-original-title>
+                        <h2>Treatment</h2>
+                    </div>
+
+
+                    <div class="pull-right footer-pagination" ng-show="myvar_t">
+                        <uib-pagination total-items="TOTALCOUNT_t" ng-model="pageNumber_t" max-size="maxSize_t" class="pagination-sm" items-per-page="recordsPerPage_t" ng-change="pageChanged_t(pageNumber_t)"></uib-pagination>
+                    </div>
+
+                    <div class="box-content">
+                        <div class="table-res-munl">
+                            <div class="table-res-munl-inner new-table">
+                                <table class="table table-striped table-bordered bootstrap-datatable datatable main-table-recoard">
+                                    <thead class="thead-header">
+                                        <tr>
+                                            <th class="rec-btm" width="17%">
+                                                <a>Title</a>
+                                            </th>
+                                            <th class="rec-btm" width="10%">
+                                                <a>Url</a>
+                                            </th>
+                                            <th class="rec-btm" width="20%">
+                                                <a>Summary</a>
+                                            </th>
+                                            <th class="rec-btm" width="20%">
+                                                <a>Editorial Board</a>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-hide='myvar_t'>
+                                        <tr>
+                                            <td colspan='7'>No Record Found.</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody ng-show='myvar_t' class="line-btm">
+                                        <tr ng-repeat='treat in RECORDS_t'>
+                                            <td ng-bind="treat.AltTitle[0]._"></td>
+                                            <td><a href="{{treat.SummaryMetaData[0].SummaryURL[0]._a.xref}}" target="_blank">Link</a></td>
+                                            <td title="{{treat.SummaryMetaData[0].SummaryAbstract[0].Para[0]._}}">{{treat.SummaryMetaData[0].SummaryAbstract[0].Para[0]._ | limitTo: 125}}<span ng-if="treat.SummaryMetaData[0].SummaryAbstract[0].Para[0]._.length > 125">&hellip;</span></td>
+                                            <td ng-bind="treat.SummaryMetaData[0].SummaryEditorialBoard[0]._"></td>   
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div-->
+            </div>
+        </div>

@@ -1,0 +1,67 @@
+<div class="Hedaer-main-block">
+    <div class="container">
+        <div class="logo-block">
+            <h3 style="color:white;">Appalope</h3></div>
+        <div class="menu-bar">
+            <div class="M-bar-block"><i style="color:white" class="fa  fa-bars"></i></div>
+        </div>
+        <div class="sch-top seach-block-main">
+            <input type="text" name="searchContent" ng-enter="search()" ng-model="searchValue" placeholder="Search by official title or keyword" />
+            <a class="btn btn-primary fa fa-search" ng-click="search()"></a>
+        </div>
+    </div>
+    <div class="search_check_box">
+        <input type="checkbox" name="clinical_trials" ng-model="clinical_trial"> Clinical Trials
+        <input type="checkbox" name="drugs" ng-model="drugs">Drugs
+    </div>
+</div>
+
+<div class="container">
+    <div class="text-center">
+        <div class="search-outter">
+
+            <!--Records-->
+            <div id="content" class="span10">
+                <div class="row-fluid sortable">
+                    <div class="box span12 span12-res">
+                        <div class="box-header" data-original-title>
+                            <h2><span>Records</span></h2>
+                        </div>
+                        <div class="pull-right footer-pagination" ng-show="myvar">
+                            <uib-pagination total-items="TOTALCOUNT" ng-model="pageNumber" max-size="maxSize" class="pagination-sm" items-per-page="recordsPerPage" ng-change="pageChanged(pageNumber)"></uib-pagination>
+                        </div>
+                        <div class="box-content">
+                            <p style="margin-top:50px;"></p>
+                            <div class="drug-listing-main">
+                                <div class="drug-listing-main-row" ng-repeat="record in RECORDS">
+                                    
+                                    <div class="left-img" ng-if='record.recordType == "clinicalTrials"'><i class="fa fa-file-code-o"></i></div>
+                                    <div class="left-img" ng-if='record.recordType == "drugs"'><i class="fa fa-medkit"></i></div>
+
+                                    <div class="right-block" ng-if='record.recordType == "clinicalTrials"'>
+                                        <h4 class="list-group-item-heading">{{record.IDInfo[0].NCTID + ':' + record.OfficialTitle}}
+											<span >{{record.Sponsors[0].LeadSponsor}} {{record.Sponsors[0].Collaborator[0]._ ? ' , ' +record.Sponsors[0].Collaborator[0]._ : ''}}</span>
+										</h4>
+                                        <p title="{{record.BriefSummary[0].Para.substring(record.BriefSummary[0].Para.indexOf(',')+1)}}">
+                                            {{record.BriefSummary[0].Para.substring(record.BriefSummary[0].Para.indexOf(',')+1) | limitTo: 320}}
+                                            <span ng-if="record.BriefSummary[0].Para.substring(record.BriefSummary[0].Para.indexOf(',')+1).length > 320">&hellip;</span>
+                                        </p>
+                                    </div>
+
+                                    <div class="right-block" ng-if='record.recordType == "drugs"'>
+                                        <h4 class="list-group-item-heading">{{record.DrugInfoTitle}}
+											<span ng-bind="record.DrugInfoMetaData[0].USBrandNames[0].USBrandName"></span>
+										</h4>
+                                        <p ng-bind="record.DrugInfoMetaData[0].DrugInfoDescription"></p>
+                                    </div>
+                                    
+                                    <a class="btn btn-primary pull-right" ng-click="viewDetails( record._id ,record.recordType)"> View Details</a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
